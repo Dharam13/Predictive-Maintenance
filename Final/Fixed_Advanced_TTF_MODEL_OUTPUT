@@ -1,0 +1,202 @@
+(myenv310) PS C:\Users\Dharam Patel\Desktop\Internship Project\Model> python y.py
+❌ No saved model found at saved_models\ttf_predictor_model.pkl
+🔄 No existing models found. Training new models...
+Enhanced Component TTF Prediction Models
+==================================================
+Dataset loaded: (475432, 19)
+
+🔧 Training TTF_COMP1_HOURS
+------------------------------
+
+🔧 Training TTF_COMP2_HOURS
+------------------------------
+
+🔧 Training TTF_COMP3_HOURS
+------------------------------
+
+🔧 Training TTF_COMP4_HOURS
+------------------------------
+
+✅ Training completed successfully!
+✅ Models saved successfully to saved_models\ttf_predictor_model.pkl
+
+================================================================================
+📊 COMPREHENSIVE MODEL EVALUATION REPORT
+================================================================================
+
+📋 OVERALL PERFORMANCE SUMMARY
+-----------------------------------------------------------------
+Component    R²       RMSE(h)    MAE(h)     Samples
+-----------------------------------------------------------------
+Comp 1       0.655    61.3       6.0        15429
+Comp 2       0.633    67.3       4.7        15823
+Comp 3       0.656    112.8      8.4        15295
+Comp 4       0.631    82.4       5.8        15333
+
+🔧 COMPONENT 1 DETAILED ANALYSIS
+--------------------------------------------------
+📈 Overall Performance:
+   • R² Score:           0.655
+   • RMSE:              61.3 hours (2.6 days)
+   • MAE:               6.0 hours (0.2 days)
+   • Total Samples:     15,429
+
+🚨 Critical Cases Performance (≤24h):
+   • Critical R²:       0.910
+   • Critical MAE:      1.2 hours
+   • Critical RMSE:     2.1 hours
+   • Critical Samples:  12,000
+
+⚠️  High Risk Cases Performance (≤48h):
+   • High Risk R²:      0.945
+   • High Risk MAE:     1.4 hours
+   • High Risk RMSE:    2.4 hours
+   • High Risk Samples: 13,009
+
+🟡 Medium Risk Cases Performance (≤168h):
+   • Medium Risk R²:    0.966
+   • Medium Risk MAE:   2.3 hours
+   • Medium Risk RMSE:  5.8 hours
+   • Medium Risk Samples: 14,933
+
+🟢 Long Term Cases Performance (>168h):
+   • Long Term R²:      0.359
+   • Long Term MAE:     115.4 hours
+   • Long Term RMSE:    340.2 hours
+   • Long Term Samples: 496
+
+🤖 Ensemble Model Weights:
+   • Gradient Boosting: 0.326
+   • Random Forest: 0.331
+   • Elastic Net: 0.343
+
+🔧 COMPONENT 2 DETAILED ANALYSIS
+--------------------------------------------------
+📈 Overall Performance:
+   • R² Score:           0.633
+   • RMSE:              67.3 hours (2.8 days)
+   • MAE:               4.7 hours (0.2 days)
+   • Total Samples:     15,823
+
+🚨 Critical Cases Performance (≤24h):
+   • Critical R²:       0.954
+   • Critical MAE:      0.9 hours
+   • Critical RMSE:     1.5 hours
+   • Critical Samples:  12,000
+
+⚠️  High Risk Cases Performance (≤48h):
+   • High Risk R²:      0.970
+   • High Risk MAE:     1.0 hours
+   • High Risk RMSE:    1.9 hours
+   • High Risk Samples: 13,401
+
+🟡 Medium Risk Cases Performance (≤168h):
+   • Medium Risk R²:    0.970
+   • Medium Risk MAE:   1.7 hours
+   • Medium Risk RMSE:  5.3 hours
+   • Medium Risk Samples: 15,327
+
+🟢 Long Term Cases Performance (>168h):
+   • Long Term R²:      0.376
+   • Long Term MAE:     96.3 hours
+   • Long Term RMSE:    379.2 hours
+   • Long Term Samples: 496
+
+🤖 Ensemble Model Weights:
+   • Gradient Boosting: 0.399
+   • Random Forest: 0.298
+   • Elastic Net: 0.303
+
+🔧 COMPONENT 3 DETAILED ANALYSIS
+--------------------------------------------------
+📈 Overall Performance:
+   • R² Score:           0.656
+   • RMSE:              112.8 hours (4.7 days)
+   • MAE:               8.4 hours (0.4 days)
+   • Total Samples:     15,295
+
+🚨 Critical Cases Performance (≤24h):
+   • Critical R²:       0.696
+   • Critical MAE:      1.7 hours
+   • Critical RMSE:     3.8 hours
+   • Critical Samples:  12,000
+
+⚠️  High Risk Cases Performance (≤48h):
+   • High Risk R²:      0.748
+   • High Risk MAE:     2.0 hours
+   • High Risk RMSE:    4.9 hours
+   • High Risk Samples: 12,877
+
+🟡 Medium Risk Cases Performance (≤168h):
+   • Medium Risk R²:    0.928
+   • Medium Risk MAE:   3.1 hours
+   • Medium Risk RMSE:  8.3 hours
+   • Medium Risk Samples: 14,799
+
+🟢 Long Term Cases Performance (>168h):
+   • Long Term R²:      0.559
+   • Long Term MAE:     168.4 hours
+   • Long Term RMSE:    624.6 hours
+   • Long Term Samples: 496
+
+🤖 Ensemble Model Weights:
+   • Gradient Boosting: 0.494
+   • Random Forest: 0.260
+   • Elastic Net: 0.246
+
+🔧 COMPONENT 4 DETAILED ANALYSIS
+--------------------------------------------------
+📈 Overall Performance:
+   • R² Score:           0.631
+   • RMSE:              82.4 hours (3.4 days)
+   • MAE:               5.8 hours (0.2 days)
+   • Total Samples:     15,333
+
+🚨 Critical Cases Performance (≤24h):
+   • Critical R²:       0.899
+   • Critical MAE:      1.2 hours
+   • Critical RMSE:     2.2 hours
+   • Critical Samples:  12,000
+
+⚠️  High Risk Cases Performance (≤48h):
+   • High Risk R²:      0.910
+   • High Risk MAE:     1.3 hours
+   • High Risk RMSE:    3.0 hours
+   • High Risk Samples: 12,925
+
+🟡 Medium Risk Cases Performance (≤168h):
+   • Medium Risk R²:    0.965
+   • Medium Risk MAE:   2.2 hours
+   • Medium Risk RMSE:  5.8 hours
+   • Medium Risk Samples: 14,837
+
+🟢 Long Term Cases Performance (>168h):
+   • Long Term R²:      0.445
+   • Long Term MAE:     114.2 hours
+   • Long Term RMSE:    457.2 hours
+   • Long Term Samples: 496
+
+🤖 Ensemble Model Weights:
+   • Gradient Boosting: 0.419
+   • Random Forest: 0.285
+   • Elastic Net: 0.296
+
+🔮 SAMPLE PREDICTION TEST
+========================================
+
+📊 Component TTF Predictions:
+----------------------------------------
+🟠 Component 1: 8.0h (0.3d) - HIGH (Model R²: 0.655)
+🟠 Component 2: 8.7h (0.4d) - HIGH (Model R²: 0.633)
+🟠 Component 3: 5.2h (0.2d) - HIGH (Model R²: 0.656)
+🔴 Component 4: 2.8h (0.1d) - CRITICAL (Model R²: 0.631)
+
+🚨 Most Critical: Component 4 (2.8h - CRITICAL)
+
+🔧 MAINTENANCE RECOMMENDATIONS
+----------------------------------------
+⚠️  Immediate attention required:
+   • Component 1: Schedule maintenance within 8.0h
+   • Component 2: Schedule maintenance within 8.7h
+   • Component 3: Schedule maintenance within 5.2h
+   • Component 4: Schedule maintenance within 2.8h

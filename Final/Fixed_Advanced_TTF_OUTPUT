@@ -1,0 +1,110 @@
+(myenv310) PS C:\Users\Dharam Patel\Desktop\Internship Project\Model> python calculating_new_advance_TTF.py
+Loading datasets...
+Dataset shapes:
+Telemetry: (876100, 6)
+Maintenance: (3286, 3)
+Failures: (761, 3)
+Errors: (3919, 3)
+Machines: (100, 3)
+Aggregated errors shape: (3616, 3)
+
+Step 1: Merging telemetry with machine data...
+After machine merge: (876100, 8)
+Step 2: Merging with error data...
+Sorting dataframes for merge_asof...
+Verifying sort order...
+df1_sorted is properly sorted: True
+error_agg_sorted is properly sorted: True
+Using alternative merge approach...
+Processing machine 50 for error merge...
+Processing machine 100 for error merge...
+After error merge: (876100, 9)
+Step 3: Calculating TTF with multiple failures and maintenance events...
+Calculating fixed advanced TTF...
+Processing machine 1... (1/100)
+Processing machine 11... (11/100)
+Processing machine 21... (21/100)
+Processing machine 31... (31/100)
+Processing machine 41... (41/100)
+Processing machine 51... (51/100)
+Processing machine 61... (61/100)
+Processing machine 71... (71/100)
+Processing machine 81... (81/100)
+Processing machine 91... (91/100)
+
+Removed 400668 telemetry records due to intervening maintenance events
+
+Final dataset shape: (475432, 19)
+
+Failure prediction statistics:
+Records with failure within 48h: 21816
+Records without failure within 48h: 453616
+Failure rate: 0.0459
+
+Minimum TTF statistics:
+count    475432.000000
+mean        843.318380
+std        1162.837462
+min           0.000000
+25%         221.000000
+50%         498.000000
+75%         978.000000
+max        8760.000000
+Name: min_ttf_hours, dtype: float64
+
+comp1 TTF statistics:
+  Mean: 2078.2 hours
+  Median: 1331.0 hours
+  Failures within 48h: 10411
+
+comp2 TTF statistics:
+  Mean: 1535.1 hours
+  Median: 963.0 hours
+  Failures within 48h: 14206
+
+comp3 TTF statistics:
+  Mean: 2435.7 hours
+  Median: 1611.0 hours
+  Failures within 48h: 8926
+
+comp4 TTF statistics:
+  Mean: 2373.9 hours
+  Median: 1532.0 hours
+  Failures within 48h: 9313
+
+Maintenance recency statistics:
+  comp1: Mean 49.0 days, Median 32.0 days since last maintenance
+  comp2: Mean 49.3 days, Median 31.0 days since last maintenance
+  comp3: Mean 46.4 days, Median 30.8 days since last maintenance
+  comp4: Mean 52.3 days, Median 33.0 days since last maintenance
+
+Data quality checks:
+Records with infinite maintenance days: 0
+Records with negative TTF: 0
+
+Saving processed data to data/Fixed_Advanced_TTF_Dataset.csv...
+Successfully saved processed dataset with 475432 records to data/Fixed_Advanced_TTF_Dataset.csv
+
+Sample of final processed data:
+   machineID            datetime        volt      rotate    pressure  ...  days_since_comp2_maint ttf_comp3_hours  days_since_comp3_maint  ttf_comp4_hours  days_since_comp4_maint
+0          1 2015-02-04 06:00:00  198.120032  438.210053   89.040265  ...              248.000000          7944.0                0.000000           3240.0                0.000000
+1          1 2015-02-04 07:00:00  143.630013  426.658731   89.152311  ...              248.041667          7943.0                0.041667           3239.0                0.041667
+2          1 2015-02-04 08:00:00  164.767086  449.335252  116.759476  ...              248.083333          7942.0                0.083333           3238.0                0.083333
+3          1 2015-02-04 09:00:00  171.598838  467.996852   79.922561  ...              248.125000          7941.0                0.125000           3237.0                0.125000
+4          1 2015-02-04 10:00:00  161.935118  458.539630   93.292781  ...              248.166667          7940.0                0.166667           3236.0                0.166667
+5          1 2015-02-04 11:00:00  163.830963  471.415976  106.464215  ...              248.208333          7939.0                0.208333           3235.0                0.208333
+6          1 2015-02-04 12:00:00  175.735225  364.439846  128.026930  ...              248.250000          7938.0                0.250000           3234.0                0.250000
+7          1 2015-02-04 13:00:00  173.337711  461.820814   93.224295  ...              248.291667          7937.0                0.291667           3233.0                0.291667
+8          1 2015-02-04 14:00:00  159.893682  412.609608   94.585637  ...              248.333333          7936.0                0.333333           3232.0                0.333333
+9          1 2015-02-04 15:00:00  178.511494  491.298762  107.084809  ...              248.375000          7935.0                0.375000           3231.0                0.375000
+
+[10 rows x 19 columns]
+
+Dataset is ready for predictive maintenance modeling!
+Key features:
+- Component-specific TTF: ttf_comp1_hours, ttf_comp2_hours, etc.
+- Maintenance recency: days_since_comp1_maint, days_since_comp2_maint, etc.
+- Overall failure prediction: failure_within_48h
+- Minimum TTF across components: min_ttf_hours
+
+IMPORTANT: Records with intervening maintenance events have been removed to ensure TTF accuracy!
