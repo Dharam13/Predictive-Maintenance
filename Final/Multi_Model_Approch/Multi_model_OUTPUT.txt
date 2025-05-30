@@ -1,3 +1,4 @@
+(myenv310) PS C:\Users\Dharam Patel\Desktop\Internship Project\Model> python z.py
 Starting training process...
 🔄 Multi-Model TTF Prediction System
 ==================================================
@@ -6,38 +7,38 @@ Dataset loaded: (475432, 19)
 🔧 Training models for TTF_COMP1_HOURS
 ----------------------------------------
 📊 Training classification model...
-   Classifier accuracy: 0.970
+   Classifier accuracy: 0.933
 🚨 Training critical cases model...
-   Critical model R²: 0.987, RMSE: 4.8h
+   Critical model R²: 0.932, RMSE: 10.9h
 🟢 Training long-term cases model...
-   Long-term model R²: 0.846, RMSE: 537.6h
+   Long-term model R²: 0.858, RMSE: 517.0h
 
 🔧 Training models for TTF_COMP2_HOURS
 ----------------------------------------
 📊 Training classification model...
-   Classifier accuracy: 0.976
+   Classifier accuracy: 0.913
 🚨 Training critical cases model...
-   Critical model R²: 0.985, RMSE: 5.1h
+   Critical model R²: 0.905, RMSE: 12.9h
 🟢 Training long-term cases model...
-   Long-term model R²: 0.873, RMSE: 484.8h
+   Long-term model R²: 0.900, RMSE: 430.0h
 
 🔧 Training models for TTF_COMP3_HOURS
 ----------------------------------------
 📊 Training classification model...
-   Classifier accuracy: 0.978
+   Classifier accuracy: 0.949
 🚨 Training critical cases model...
-   Critical model R²: 0.983, RMSE: 5.5h
+   Critical model R²: 0.931, RMSE: 11.0h
 🟢 Training long-term cases model...
-   Long-term model R²: 0.907, RMSE: 421.8h
+   Long-term model R²: 0.904, RMSE: 429.4h
 
 🔧 Training models for TTF_COMP4_HOURS
 ----------------------------------------
 📊 Training classification model...
-   Classifier accuracy: 0.980
+   Classifier accuracy: 0.941
 🚨 Training critical cases model...
-   Critical model R²: 0.987, RMSE: 4.7h
+   Critical model R²: 0.924, RMSE: 11.5h
 🟢 Training long-term cases model...
-   Long-term model R²: 0.922, RMSE: 395.2h
+   Long-term model R²: 0.920, RMSE: 398.8h
 
 ✅ Multi-model training completed!
 ✅ Multi-model system saved successfully to saved_models\multi_model_ttf_predictor.pkl
@@ -49,48 +50,48 @@ Dataset loaded: (475432, 19)
 
 🔧 TTF_COMP1_HOURS
 ----------------------------------------
-📊 Classifier Accuracy: 0.970
+📊 Classifier Accuracy: 0.933
 🚨 Critical Model (≤168h):
-   R² Score: 0.987
-   RMSE: 4.8 hours
-   MAE: 1.9 hours
+   R² Score: 0.932
+   RMSE: 10.9 hours
+   MAE: 6.8 hours
 🟢 Long-term Model (>168h):
-   R² Score: 0.846
-   RMSE: 537.6 hours
-   MAE: 293.2 hours
+   R² Score: 0.858
+   RMSE: 517.0 hours
+   MAE: 293.6 hours
 
 🔧 TTF_COMP2_HOURS
 ----------------------------------------
-📊 Classifier Accuracy: 0.976
+📊 Classifier Accuracy: 0.913
 🚨 Critical Model (≤168h):
-   R² Score: 0.985
-   RMSE: 5.1 hours
-   MAE: 2.0 hours
+   R² Score: 0.905
+   RMSE: 12.9 hours
+   MAE: 8.0 hours
 🟢 Long-term Model (>168h):
-   R² Score: 0.873
-   RMSE: 484.8 hours
-   MAE: 266.2 hours
+   R² Score: 0.900
+   RMSE: 430.0 hours
+   MAE: 259.1 hours
 
 🔧 TTF_COMP3_HOURS
 ----------------------------------------
-📊 Classifier Accuracy: 0.978
+📊 Classifier Accuracy: 0.949
 🚨 Critical Model (≤168h):
-   R² Score: 0.983
-   RMSE: 5.5 hours
-   MAE: 2.6 hours
+   R² Score: 0.931
+   RMSE: 11.0 hours
+   MAE: 7.3 hours
 🟢 Long-term Model (>168h):
-   R² Score: 0.907
-   RMSE: 421.8 hours
-   MAE: 263.4 hours
+   R² Score: 0.904
+   RMSE: 429.4 hours
+   MAE: 274.0 hours
 
 🔧 TTF_COMP4_HOURS
 ----------------------------------------
-📊 Classifier Accuracy: 0.980
+📊 Classifier Accuracy: 0.941
 🚨 Critical Model (≤168h):
-   R² Score: 0.987
-   RMSE: 4.7 hours
-   MAE: 2.2 hours
+   R² Score: 0.924
+   RMSE: 11.5 hours
+   MAE: 7.4 hours
 🟢 Long-term Model (>168h):
-   R² Score: 0.922
-   RMSE: 395.2 hours
-   MAE: 252.0 hours
+   R² Score: 0.920
+   RMSE: 398.8 hours
+   MAE: 263.4 hours

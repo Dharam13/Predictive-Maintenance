@@ -296,7 +296,7 @@ class MultiModelTTFPredictor:
         """Prepare features excluding target and future information"""
         exclude_cols = [
             'datetime', 'machineID', 'failure_within_48h',
-            'ttf_comp1_hours', 'ttf_comp2_hours', 'ttf_comp3_hours', 'ttf_comp4_hours'
+            'ttf_comp1_hours', 'ttf_comp2_hours', 'ttf_comp3_hours', 'ttf_comp4_hours','min_ttf_hours'
         ]
 
         feature_cols = [col for col in df.columns if col not in exclude_cols]
