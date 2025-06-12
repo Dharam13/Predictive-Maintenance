@@ -1,0 +1,1521 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced TTTF Prediction Tool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0f1419;
+            color: #e6edf3;
+            min-height: 100vh;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #161b22;
+            border-radius: 16px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1f2328;
+            color: #e6edf3;
+            padding: 48px 32px;
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #58a6ff;
+        }
+
+        .header p {
+            font-size: 1.125rem;
+            color: #8b949e;
+            font-weight: 400;
+        }
+
+        .status-banner {
+            padding: 16px 32px;
+            text-align: center;
+            font-weight: 500;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .status-banner.error {
+            background: #da3633;
+            color: #ffffff;
+        }
+
+        .status-banner.success {
+            background: #238636;
+            color: #ffffff;
+        }
+
+        .status-banner.warning {
+            background: #bf8700;
+            color: #ffffff;
+        }
+
+        .main-content {
+            padding: 32px;
+        }
+
+        .section {
+            margin-bottom: 32px;
+            padding: 32px;
+            background: #21262d;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+
+        .section h3 {
+            color: #e6edf3;
+            margin-bottom: 24px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h3 i {
+            color: #58a6ff;
+            font-size: 1.2em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn i {
+            font-size: 1em;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #30363d;
+            border-color: #484f58;
+        }
+
+        .btn-secondary {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #30363d;
+            border-color: #484f58;
+        }
+
+        .btn-success {
+            background: #0969da;
+            color: #ffffff;
+            border: 1px solid #1f6feb;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #1f6feb;
+            box-shadow: 0 4px 8px rgba(9, 105, 218, 0.3);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #e6edf3;
+            font-size: 1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: #0d1117;
+            color: #e6edf3;
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #1f6feb;
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #656d76;
+        }
+
+        .guidance {
+            font-size: 0.75rem;
+            color: #8b949e;
+            margin-top: 6px;
+        }
+
+        .results {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #30363d;
+        }
+
+        .results h3 {
+            color: #238636;
+            margin-bottom: 24px;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            background: #21262d;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .results-table th {
+            background: #161b22;
+            font-weight: 600;
+            color: #e6edf3;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .results-table tr:hover {
+            background: #30363d;
+        }
+
+        .status-critical {
+            color: #f85149;
+            font-weight: 600;
+        }
+        .status-urgent {
+            color: #d29922;
+            font-weight: 600;
+        }
+        .status-soon {
+            color: #fb8500;
+            font-weight: 600;
+        }
+        .status-normal {
+            color: #3fb950;
+            font-weight: 600;
+        }
+        .status-good {
+            color: #56d364;
+            font-weight: 600;
+        }
+
+        .status-critical::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #f85149;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-urgent::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #d29922;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-soon::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #fb8500;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-normal::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #3fb950;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-good::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #56d364;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .summary {
+            background: #161b22;
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            border: 1px solid #30363d;
+        }
+
+        .summary h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .summary h4 i {
+            color: #58a6ff;
+        }
+
+        .recommendation {
+            background: #da3633;
+            color: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .recommendation h4 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .recommendation.normal {
+            background: #238636;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 48px;
+            font-size: 1rem;
+            color: #8b949e;
+        }
+
+        .spinner {
+            border: 3px solid #30363d;
+            border-top: 3px solid #58a6ff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #da3633;
+            color: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        .error h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .success {
+            background: #238636;
+            color: #ffffff;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .retry-section {
+            text-align: center;
+            padding: 32px;
+            background: #161b22;
+            border-radius: 8px;
+            margin: 24px 0;
+            border: 1px solid #30363d;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #161b22;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 6px;
+            border: 2px solid #161b22;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                padding: 32px 24px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .main-content {
+                padding: 24px;
+            }
+
+            .section {
+                padding: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results {
+                padding: 24px;
+            }
+
+            .results-table th,
+            .results-table td {
+                padding: 12px;
+                font-size: 0.875rem;
+            }
+
+            .status-banner {
+                padding: 12px 24px;
+            }
+        }
+
+        /* Focus states for accessibility */
+        .btn:focus-visible {
+            outline: 2px solid #58a6ff;
+            outline-offset: 2px;
+        }
+
+        .form-group input:focus-visible,
+        .form-group select:focus-visible {
+            outline: 2px solid #58a6ff;
+            outline-offset: 2px;
+        }
+
+        /* Subtle animations */
+        .section {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Card-like appearance for form elements */
+        .form-group input,
+        .form-group select {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(31, 111, 235, 0.1);
+        }
+
+        /* Better button states */
+        .btn:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+
+        /* Improved table styling */
+        .results-table {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Better section borders */
+        .section {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Troubleshooting list styling */
+        .troubleshooting-list {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+            padding-left: 20px;
+        }
+
+        .troubleshooting-list li {
+            margin-bottom: 8px;
+            color: #e6edf3;
+        }
+
+        .troubleshooting-list code {
+            background: #0d1117;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.875rem;
+            color: #58a6ff;
+        }
+
+        /* Keyboard shortcuts section */
+        .shortcuts-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .shortcuts-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            background: #0d1117;
+            border-radius: 6px;
+        }
+
+        .shortcuts-list li i {
+            color: #58a6ff;
+            width: 20px;
+            text-align: center;
+        }
+
+        .shortcuts-list li strong {
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Enhanced TTTF Prediction Tool</h1>
+            <p>Time To Failure Prediction for Industrial Equipment</p>
+        </div>
+
+        <div id="statusBanner" class="status-banner hidden">
+            <!-- Status messages will appear here -->
+        </div>
+
+        <div class="main-content">
+            <div id="connectionSection" class="section">
+                <h3><i class="fas fa-plug"></i> System Status</h3>
+                <div id="statusContent">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Connecting to AI prediction system...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="controlSection" class="section hidden">
+                <h3><i class="fas fa-bullseye"></i> Prediction Options</h3>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="showManualInput()" id="manualBtn">
+                        <i class="fas fa-edit"></i> Enter Values Manually
+                    </button>
+                    <button class="btn btn-secondary" onclick="loadExampleData()" id="exampleBtn">
+                        <i class="fas fa-dice"></i> Use Example Values
+                    </button>
+                    <button class="btn btn-secondary" onclick="showModelInfo()" id="infoBtn">
+                        <i class="fas fa-info-circle"></i> Show Model Info
+                    </button>
+                    <button class="btn btn-secondary" onclick="showPerformance()" id="perfBtn">
+                        <i class="fas fa-chart-line"></i> Model Performance
+                    </button>
+                </div>
+            </div>
+
+            <div id="inputSection" class="section hidden">
+                <h3><i class="fas fa-chart-bar"></i> Input Features</h3>
+                <div id="inputForm">
+                    <div class="form-grid" id="formGrid">
+                        <!-- Dynamic form fields will be added here -->
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-success" onclick="makePrediction()" id="predictBtn">
+                            <i class="fas fa-play"></i> Make Prediction
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-redo"></i> Clear Form
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultsSection" class="section hidden">
+                <div class="results">
+                    <h3><i class="fas fa-bullseye"></i> Prediction Results</h3>
+                    <div id="resultsContent">
+                        <!-- Sample results structure -->
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Floor (weeks)</th>
+                                    <th>Exact (weeks)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Component A</td>
+                                    <td>2</td>
+                                    <td>2.34</td>
+                                    <td class="status-critical">Critical</td>
+                                </tr>
+                                <tr>
+                                    <td>Component B</td>
+                                    <td>5</td>
+                                    <td>5.67</td>
+                                    <td class="status-urgent">Urgent</td>
+                                </tr>
+                                <tr>
+                                    <td>Component C</td>
+                                    <td>8</td>
+                                    <td>8.12</td>
+                                    <td class="status-soon">Soon</td>
+                                </tr>
+                                <tr>
+                                    <td>Component D</td>
+                                    <td>15</td>
+                                    <td>15.45</td>
+                                    <td class="status-normal">Normal</td>
+                                </tr>
+                                <tr>
+                                    <td>Component E</td>
+                                    <td>25</td>
+                                    <td>25.78</td>
+                                    <td class="status-good">Good</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="summary">
+                            <h4><i class="fas fa-chart-pie"></i> Summary</h4>
+                            <p><strong>Minimum TTF:</strong> 2 weeks</p>
+                            <p><strong>Average TTF:</strong> 11.5 weeks</p>
+                            <p><strong>Critical Components:</strong> 2/5</p>
+                        </div>
+
+                        <div class="recommendation">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Immediate Action Required</h4>
+                            <p>Critical components detected. Schedule immediate maintenance within 2 weeks.</p>
+                        </div>
+
+                        <button class="btn btn-secondary" id="exportBtn" style="margin-top: 15px;">
+                            <i class="fas fa-download"></i> Export Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="infoSection" class="section hidden">
+                <h3><i class="fas fa-info-circle"></i> Model Information</h3>
+                <div id="infoContent">
+                    <p><strong>Targets:</strong> Component_A_TTF, Component_B_TTF, Component_C_TTF, Component_D_TTF, Component_E_TTF</p>
+                    <p><strong>Total Features:</strong> 12</p>
+                    <p><strong>Excluded Features:</strong> ID, Timestamp</p>
+
+                    <h4>Available Features:</h4>
+                    <ul>
+                        <li><strong>Temperature</strong> (numerical): Operating temperature in Celsius</li>
+                        <li><strong>Pressure</strong> (numerical): Operating pressure in PSI</li>
+                        <li><strong>Vibration</strong> (numerical): Vibration level in Hz</li>
+                        <li><strong>Operating_Mode</strong> (categorical): Normal, High_Load, Low_Load</li>
+                        <li><strong>Maintenance_Type</strong> (categorical): Preventive, Corrective, Emergency</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="performanceSection" class="section hidden">
+                <h3><i class="fas fa-chart-line"></i> Model Performance</h3>
+                <div id="performanceContent">
+                    <div class="summary">
+                        <h4><i class="fas fa-chart-pie"></i> Overall Performance</h4>
+                        <p><strong>Average R²:</strong> 0.8654</p>
+                    </div>
+
+                    <table class="results-table">
+                        <thead>
+                            <tr>
+                                <th>Target</th>
+                                <th>Test RMSE</th>
+                                <th>Test MAE</th>
+                                <th>Test R²</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Component_A_TTF</td>
+                                <td>2.1543</td>
+                                <td>1.6782</td>
+                                <td>0.8712</td>
+                            </tr>
+                            <tr>
+                                <td>Component_B_TTF</td>
+                                <td>1.9876</td>
+                                <td>1.5432</td>
+                                <td>0.8823</td>
+                            </tr>
+                            <tr>
+                                <td>Component_C_TTF</td>
+                                <td>2.3456</td>
+                                <td>1.8901</td>
+                                <td>0.8567</td>
+                            </tr>
+                            <tr>
+                                <td>Component_D_TTF</td>
+                                <td>2.0123</td>
+                                <td>1.6234</td>
+                                <td>0.8765</td>
+                            </tr>
+                            <tr>
+                                <td>Component_E_TTF</td>
+                                <td>1.8765</td>
+                                <td>1.4567</td>
+                                <td>0.8901</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="shortcutsSection" class="section">
+                <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+                <ul class="shortcuts-list">
+                    <li>
+                        <i class="fas fa-bullseye"></i>
+                        <strong>Ctrl+Enter:</strong> Make Prediction
+                    </li>
+                    <li>
+                        <i class="fas fa-redo"></i>
+                        <strong>Ctrl+R:</strong> Clear Form
+                    </li>
+                    <li>
+                        <i class="fas fa-dice"></i>
+                        <strong>Ctrl+E:</strong> Load Example Data
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let modelFeatures = [];
+        let currentData = {};
+        let systemStatus = {
+            connected: false,
+            modelLoaded: false,
+            retryCount: 0,
+            maxRetries: 3
+        };
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing TTTF Prediction Tool...');
+            checkAPIStatus();
+        });
+
+        async function checkAPIStatus() {
+            try {
+                showStatusBanner('Checking system status...', 'warning');
+
+                const response = await fetch('/api/status', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('📊 API Status:', data);
+
+                systemStatus.connected = true;
+                systemStatus.modelLoaded = data.model_loaded;
+
+                if (!data.model_loaded) {
+                    showConnectionError('Model not loaded. Please ensure the model file exists and restart the server.');
+                } else {
+                    showStatusBanner('✅ System ready!', 'success');
+                    await loadModelInfo();
+                    showControlPanel();
+                }
+            } catch (error) {
+                console.error('❌ API Status check failed:', error);
+                systemStatus.connected = false;
+                showConnectionError('Failed to connect to prediction server: ' + error.message);
+            }
+        }
+
+        function showConnectionError(message) {
+            const statusContent = document.getElementById('statusContent');
+            statusContent.innerHTML = `
+                <div class="error">
+                    <h4>❌ Connection Error</h4>
+                    <p>${message}</p>
+                </div>
+                <div class="retry-section">
+                    <p><strong>Troubleshooting Steps:</strong></p>
+                    <ol style="text-align: left; max-width: 600px; margin: 0 auto;">
+                        <li>Ensure the Flask server is running: <code>python app.py</code></li>
+                        <li>Check that the model file exists: <code>tttf_gb_model_enhanced.pkl</code></li>
+                        <li>Verify you're accessing the correct URL: <code>http://localhost:5000</code></li>
+                        <li>Check the console for error messages</li>
+                    </ol>
+                    <button class="btn btn-primary" onclick="retryConnection()" id="retryBtn" style="margin-top: 15px;">
+                        🔄 Retry Connection (${systemStatus.retryCount}/${systemStatus.maxRetries})
+                    </button>
+                </div>
+            `;
+
+            const retryBtn = document.getElementById('retryBtn');
+            if (systemStatus.retryCount >= systemStatus.maxRetries) {
+                retryBtn.disabled = true;
+                retryBtn.textContent = '❌ Max retries reached';
+            }
+
+            showStatusBanner('❌ System not available', 'error');
+        }
+
+        function retryConnection() {
+            if (systemStatus.retryCount < systemStatus.maxRetries) {
+                systemStatus.retryCount++;
+                console.log(`🔄 Retry attempt ${systemStatus.retryCount}/${systemStatus.maxRetries}`);
+                checkAPIStatus();
+            }
+        }
+
+        function showControlPanel() {
+            document.getElementById('connectionSection').classList.add('hidden');
+            document.getElementById('controlSection').classList.remove('hidden');
+        }
+
+        async function loadModelInfo() {
+            try {
+                const response = await fetch('/api/model-info');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    modelFeatures = data.features;
+                    console.log('📋 Model info loaded:', data);
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('❌ Failed to load model info:', error);
+                showError('Failed to load model information: ' + error.message);
+            }
+        }
+
+        function showManualInput() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            hideAllSections();
+            createInputForm();
+            document.getElementById('inputSection').classList.remove('hidden');
+        }
+
+        function createInputForm() {
+            const formGrid = document.getElementById('formGrid');
+            formGrid.innerHTML = '';
+
+            if (modelFeatures.length === 0) {
+                formGrid.innerHTML = '<p class="error">No model features available. Please check system status.</p>';
+                return;
+            }
+
+            modelFeatures.forEach(feature => {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+
+                const label = document.createElement('label');
+                label.textContent = feature.name;
+                formGroup.appendChild(label);
+
+                if (feature.type === 'categorical') {
+                    const select = document.createElement('select');
+                    select.id = feature.name;
+                    select.name = feature.name;
+
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = 'Select...';
+                    select.appendChild(defaultOption);
+
+                    feature.options.forEach(option => {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = option;
+                        select.appendChild(optionElement);
+                    });
+
+                    formGroup.appendChild(select);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.step = 'any';
+                    input.id = feature.name;
+                    input.name = feature.name;
+                    input.placeholder = 'Enter value or leave empty for auto-imputation';
+                    formGroup.appendChild(input);
+
+                    if (feature.guidance) {
+                        const guidance = document.createElement('div');
+                        guidance.className = 'guidance';
+                        guidance.textContent = ' ' + feature.guidance;
+                        formGroup.appendChild(guidance);
+                    }
+                }
+
+                formGrid.appendChild(formGroup);
+            });
+        }
+
+        async function loadExampleData() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            try {
+                disableButtons(true);
+                const response = await fetch('/api/example-data');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showManualInput();
+                    populateForm(data.data);
+                    showStatusBanner('✅ Example data loaded successfully!', 'success');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('❌ Failed to load example data:', error);
+                showError('Failed to load example data: ' + error.message);
+            } finally {
+                disableButtons(false);
+            }
+        }
+
+        function populateForm(data) {
+            Object.keys(data).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = data[key];
+                }
+            });
+        }
+
+        function clearForm() {
+            modelFeatures.forEach(feature => {
+                const element = document.getElementById(feature.name);
+                if (element) {
+                    element.value = '';
+                }
+            });
+            showStatusBanner('✅ Form cleared!', 'success');
+        }
+
+        async function makePrediction() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            const inputData = {};
+            let hasData = false;
+
+            modelFeatures.forEach(feature => {
+                const element = document.getElementById(feature.name);
+                if (element && element.value !== '') {
+                    inputData[feature.name] = element.value;
+                    hasData = true;
+                } else if (feature.type === 'numerical') {
+                    inputData[feature.name] = null; // Will be imputed
+                }
+            });
+
+            if (!hasData) {
+                showError('Please enter at least some values');
+                return;
+            }
+
+            try {
+                disableButtons(true);
+                showLoading('Making prediction...');
+
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(inputData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+                    showStatusBanner('✅ Prediction completed successfully!', 'success');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('❌ Prediction failed:', error);
+                showError('Prediction failed: ' + error.message);
+            } finally {
+                hideLoading();
+                disableButtons(false);
+            }
+        }
+
+        function displayResults(data) {
+            const resultsContent = document.getElementById('resultsContent');
+
+            let html = '<table class="results-table">' +
+                       '<thead><tr><th>Component</th><th>Floor (weeks)</th><th>Exact (weeks)</th><th>Status</th></tr></thead>' +
+                       '<tbody>';
+
+            data.results.forEach(result => {
+                html += `<tr>
+                    <td>${result.component}</td>
+                    <td>${result.floor_weeks}</td>
+                    <td>${result.exact_weeks.toFixed(2)}</td>
+                    <td class="status-${result.status.toLowerCase()}">${result.emoji} ${result.status}</td>
+                </tr>`;
+            });
+
+            html += '</tbody></table>';
+
+            html += `<div class="summary">
+                <h4>📊 Summary</h4>
+                <p><strong>Minimum TTF:</strong> ${data.summary.min_weeks} weeks</p>
+                <p><strong>Average TTF:</strong> ${data.summary.avg_weeks.toFixed(1)} weeks</p>
+                <p><strong>Critical Components:</strong> ${data.summary.critical_components}/${data.summary.total_components}</p>
+            </div>`;
+
+            const recClass = data.summary.min_weeks <= 4 ? '' : 'normal';
+            html += `<div class="recommendation ${recClass}">
+                <h4> ${data.recommendation.title}</h4>
+                <p>${data.recommendation.detail}</p>
+            </div>`;
+
+           resultsContent.innerHTML = html;
+document.getElementById('resultsSection').classList.remove('hidden');
+addExportButton();
+        }
+
+        async function showModelInfo() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            hideAllSections();
+
+            try {
+                const response = await fetch('/api/model-info');
+                const data = await response.json();
+
+                if (data.success) {
+                    let html = `<p><strong>Targets:</strong> ${data.targets.join(', ')}</p>`;
+                    html += `<p><strong>Total Features:</strong> ${data.total_features}</p>`;
+                    html += `<p><strong>Excluded Features:</strong> ${data.excluded_features.join(', ')}</p>`;
+
+                    html += '<h4>Available Features:</h4><ul>';
+                    data.features.forEach(feature => {
+                        if (feature.type === 'categorical') {
+                            html += `<li><strong>${feature.name}</strong> (categorical): ${feature.options.join(', ')}</li>`;
+                        } else {
+                            html += `<li><strong>${feature.name}</strong> (numerical): ${feature.guidance || 'Numerical value'}</li>`;
+                        }
+                    });
+                    html += '</ul>';
+
+                    document.getElementById('infoContent').innerHTML = html;
+                    document.getElementById('infoSection').classList.remove('hidden');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                showError('Failed to load model info: ' + error.message);
+            }
+        }
+
+        async function showPerformance() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            hideAllSections();
+
+            try {
+                const response = await fetch('/api/performance');
+                const data = await response.json();
+
+                if (data.success) {
+                    let html = `<div class="summary">
+                        <h4>📊 Overall Performance</h4>
+                        <p><strong>Average R²:</strong> ${data.summary.avg_r2.toFixed(4)}</p>
+                    </div>`;
+
+                    html += '<table class="results-table">' +
+                            '<thead><tr><th>Target</th><th>Test RMSE</th><th>Test MAE</th><th>Test R²</th></tr></thead>' +
+                            '<tbody>';
+
+                    data.metrics.forEach(metric => {
+                        html += `<tr>
+                            <td>${metric.Target}</td>
+                            <td>${metric.Test_RMSE.toFixed(4)}</td>
+                            <td>${metric.Test_MAE.toFixed(4)}</td>
+                            <td>${metric.Test_R2.toFixed(4)}</td>
+
+                        </tr>`;
+                    });
+
+                    html += '</tbody></table>';
+
+                    document.getElementById('performanceContent').innerHTML = html;
+                    document.getElementById('performanceSection').classList.remove('hidden');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                showError('Failed to load performance metrics: ' + error.message);
+            }
+        }
+
+        function hideAllSections() {
+            document.getElementById('inputSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('infoSection').classList.add('hidden');
+            document.getElementById('performanceSection').classList.add('hidden');
+        }
+
+        function disableButtons(disabled) {
+            const buttons = ['manualBtn', 'exampleBtn', 'infoBtn', 'perfBtn', 'predictBtn'];
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                if (btn) btn.disabled = disabled;
+            });
+        }
+
+        function showStatusBanner(message, type) {
+            const banner = document.getElementById('statusBanner');
+            banner.className = `status-banner ${type}`;
+            banner.textContent = message;
+            banner.classList.remove('hidden');
+
+            if (type === 'success') {
+                setTimeout(() => {
+                    banner.classList.add('hidden');
+                }, 3000);
+            }
+        }
+
+        function showError(message) {
+            console.error('❌ Error:', message);
+            showStatusBanner('❌ ' + message, 'error');
+        }
+
+        function showLoading(message) {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loadingDiv';
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = `<div class="spinner"></div><div>${message}</div>`;
+            document.body.appendChild(loadingDiv);
+        }function showLoading(message) {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loadingDiv';
+            loadingDiv.className = 'loading';
+            loadingDiv.innerHTML = `<div class="spinner"></div><div>${message}</div>`;
+            document.body.appendChild(loadingDiv);
+        }
+
+        function hideLoading() {
+            const loadingDiv = document.getElementById('loadingDiv');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
+
+        // Utility function to format numbers
+        function formatNumber(num, decimals = 2) {
+            return typeof num === 'number' ? num.toFixed(decimals) : num;
+        }
+
+        // Utility function to validate form inputs
+        function validateInputs() {
+            const inputs = document.querySelectorAll('#inputSection input, #inputSection select');
+            let isValid = true;
+            let errorMessages = [];
+
+            inputs.forEach(input => {
+                if (input.type === 'number' && input.value !== '') {
+                    const value = parseFloat(input.value);
+                    if (isNaN(value)) {
+                        errorMessages.push(`Invalid number for ${input.name}`);
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (!isValid) {
+                showError(errorMessages.join(', '));
+            }
+
+            return isValid;
+        }
+
+        // Auto-save functionality
+        function autoSave() {
+            const formData = {};
+            modelFeatures.forEach(feature => {
+                const element = document.getElementById(feature.name);
+                if (element && element.value !== '') {
+                    formData[feature.name] = element.value;
+                }
+            });
+
+            // Store in memory (not localStorage due to artifact restrictions)
+            currentData = formData;
+            console.log('💾 Auto-saved form data:', formData);
+        }
+
+        // Auto-load functionality
+        function autoLoad() {
+            if (Object.keys(currentData).length > 0) {
+                populateForm(currentData);
+                showStatusBanner('📋 Previous data restored', 'success');
+            }
+        }
+
+        // Add event listeners for auto-save
+        function addAutoSaveListeners() {
+            const inputs = document.querySelectorAll('#inputSection input, #inputSection select');
+            inputs.forEach(input => {
+                input.addEventListener('change', autoSave);
+                input.addEventListener('blur', autoSave);
+            });
+        }
+
+        // Store original makePrediction function before redefining
+        async function originalMakePrediction() {
+            if (!systemStatus.connected || !systemStatus.modelLoaded) {
+                showError('System not ready. Please check connection.');
+                return;
+            }
+
+            const inputData = {};
+            let hasData = false;
+
+            modelFeatures.forEach(feature => {
+                const element = document.getElementById(feature.name);
+                if (element && element.value !== '') {
+                    inputData[feature.name] = element.value;
+                    hasData = true;
+                } else if (feature.type === 'numerical') {
+                    inputData[feature.name] = null; // Will be imputed
+                }
+            });
+
+            if (!hasData) {
+                showError('Please enter at least some values');
+                return;
+            }
+
+            try {
+                disableButtons(true);
+                showLoading('Making prediction...');
+
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(inputData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayResults(data);
+                    showStatusBanner('✅ Prediction completed successfully!', 'success');
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                console.error('❌ Prediction failed:', error);
+                showError('Prediction failed: ' + error.message);
+            } finally {
+                hideLoading();
+                disableButtons(false);
+            }
+        }
+
+        // Enhanced prediction with validation
+        async function makePrediction() {
+            if (!validateInputs()) {
+                return;
+            }
+            await originalMakePrediction();
+        }
+
+        // Export results functionality
+        function exportResults() {
+            const resultsSection = document.getElementById('resultsSection');
+            if (resultsSection.classList.contains('hidden')) {
+                showError('No results to export');
+                return;
+            }
+
+            const resultsData = {
+                timestamp: new Date().toISOString(),
+                inputData: currentData,
+                results: 'Results exported at ' + new Date().toLocaleString()
+            };
+
+            const dataStr = JSON.stringify(resultsData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `tttf_prediction_${Date.now()}.json`;
+            link.click();
+
+            URL.revokeObjectURL(url);
+            showStatusBanner('📁 Results exported successfully!', 'success');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'enter':
+                        e.preventDefault();
+                        if (!document.getElementById('inputSection').classList.contains('hidden')) {
+                            makePrediction();
+                        }
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        clearForm();
+                        break;
+                    case 'e':
+                        e.preventDefault();
+                        loadExampleData();
+                        break;
+                }
+            }
+        });
+
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showError('An unexpected error occurred. Please refresh the page.');
+        });
+
+        // Network status monitoring
+        window.addEventListener('online', function() {
+            showStatusBanner('🌐 Connection restored', 'success');
+            if (!systemStatus.connected) {
+                checkAPIStatus();
+            }
+        });
+
+        window.addEventListener('offline', function() {
+            showStatusBanner('🔌 Connection lost', 'error');
+            systemStatus.connected = false;
+        });
+
+        // Add export button to results section
+        function addExportButton() {
+            const resultsSection = document.getElementById('resultsSection');
+            const exportBtn = document.createElement('button');
+            exportBtn.className = 'btn btn-secondary';
+            exportBtn.innerHTML = '📁 Export Results';
+            exportBtn.onclick = exportResults;
+            exportBtn.style.marginTop = '15px';
+
+            const resultsContent = document.getElementById('resultsContent');
+            if (resultsContent && !document.getElementById('exportBtn')) {
+                exportBtn.id = 'exportBtn';
+                resultsContent.appendChild(exportBtn);
+            }
+        }
+
+
+
+
+
+        // Add keyboard shortcuts info
+        function showKeyboardShortcuts() {
+            const shortcutsInfo = `
+                <div class="section">
+                    <h3>⌨️ Keyboard Shortcuts</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li>🎯 <strong>Ctrl+Enter:</strong> Make Prediction</li>
+                        <li>🔄 <strong>Ctrl+R:</strong> Clear Form</li>
+                        <li>🎲 <strong>Ctrl+E:</strong> Load Example Data</li>
+                    </ul>
+                </div>
+            `;
+
+            const mainContent = document.querySelector('.main-content');
+            if (!document.getElementById('shortcutsSection')) {
+                const div = document.createElement('div');
+                div.id = 'shortcutsSection';
+                div.innerHTML = shortcutsInfo;
+                mainContent.appendChild(div);
+            }
+        }
+
+        // Initialize shortcuts info after page load
+        setTimeout(showKeyboardShortcuts, 2000);
+
+        console.log('✅ Enhanced TTTF Prediction Tool fully loaded');
+    </script>
+</body>
+</html>
